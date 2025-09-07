@@ -1,0 +1,16 @@
+# git
+.git
+.gitignore
+
+# node / angular
+**/node_modules
+**/dist
+**/.angular
+**/coverage
+
+# dotnet / IDE
+**/bin
+**/obj
+**/.vs
+*.user
+*.suo

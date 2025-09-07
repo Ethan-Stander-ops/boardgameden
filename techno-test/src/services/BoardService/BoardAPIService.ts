@@ -32,7 +32,7 @@ export class BoardAPIService {
     }
   }
 
-  private baseUrl = 'https://localhost:7184/api/boardgames';
+  private baseUrl = '/api/boardgames';
 
   private cache = new Map<string, Paged<Product>>();
   private cacheTime = new Map<string, number>();

@@ -1,0 +1,12 @@
+{
+  "Version": 1,
+  "Hash": "GDj5lQzuuotOKk4XJd/ublFkcItPTQef2BXfme3k3zU=",
+  "Source": "boardGameDenAPI",
+  "BasePath": "_content/boardGameDenAPI",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": [],
+  "Endpoints": []
+}

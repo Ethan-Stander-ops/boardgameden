@@ -1,0 +1,101 @@
+<div class="brand">
+  <div class="brand-mark">BGD</div>
+  <div class="brand-text">
+    <h1>Board Game<span> Den</span></h1>
+    <div class="brand-sub">Official price list</div>
+  </div>
+</div>
+
+<div class="toolbar" [class.busy]="boardApiService.loading$ | async">
+  <input
+    type="text"
+    [value]="filterText"
+    (input)="setFilter($any($event.target).value)"
+    [disabled]="boardApiService.loading$ | async"
+    placeholder="Search..."
+  />
+
+  <select
+    [value]="pageSize"
+    (change)="setPageSize(+$any($event.target).value)"
+    [disabled]="boardApiService.loading$ | async"
+  >
+    <option [value]="10">10 / page</option>
+    <option [value]="20">20 / page</option>
+    <option [value]="50">50 / page</option>
+  </select>
+
+  <button
+    (click)="clearFilter()"
+    [disabled]="!filterText || (boardApiService.loading$ | async)"
+  >
+    Clear
+  </button>
+</div>
+
+<table class="pretty hoverable ">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Players</th>
+      <th>Time</th>
+      <th>Rating</th>
+      <th>Our Price</th>
+      <th>Original Price</th>
+      <th>Link</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr *ngFor="let p of productList">
+      <td class="name">
+        <img *ngIf="p.thumbnail" [src]="p.thumbnail" alt="" />
+        <span>{{ p.name }}</span>
+      </td>
+      <td>{{ p.minPlayers }}–{{ p.maxPlayers }}</td>
+      <td>{{ p.minTime }}–{{ p.maxTime }} min</td>
+      <td>{{ p.bggRating != null ? (p.bggRating | number:'1.2-2') : '—' }}</td>
+      <td>R {{ p.ourPrice}}</td>
+      <td>R {{p.salePrice}}</td>
+      <td><a [href]="p.url" target="_blank" rel="noopener">View</a></td>
+    </tr>
+
+    <tr *ngIf="!productList.length">
+      <td colspan="6">No results</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="pager" [class.busy]="boardApiService.loading$ | async">
+  <button (click)="firstPage()" [disabled]="page === 1 || (boardApiService.loading$ | async)">« First</button>
+  <button (click)="prevPage()"  [disabled]="page === 1 || (boardApiService.loading$ | async)">‹ Prev</button>
+
+  <ng-container *ngFor="let it of pageItems">
+    <button
+      *ngIf="it.kind === 'page'"
+      (click)="goToPage(it.value)"
+      [class.active]="it.value === page"
+      [disabled]="boardApiService.loading$ | async">
+      {{ it.value }}
+    </button>
+
+    <button
+      *ngIf="it.kind === 'ellipsis'"
+      class="ellipsis"
+      (click)="it.dir === 'left' ? jumpLeft() : jumpRight()"
+      [disabled]="boardApiService.loading$ | async"
+      title="Jump pages">
+      …
+    </button>
+  </ng-container>
+
+  <button (click)="nextPage()" [disabled]="page >= maxPage || (boardApiService.loading$ | async)">Next ›</button>
+  <button (click)="lastPage()" [disabled]="page >= maxPage || (boardApiService.loading$ | async)">Last »</button>
+</div>
+
+<div *ngIf="boardApiService.loading$ | async" class="overlay">
+  <div class="overlay-box">
+    <div class="spinner"></div>
+    <div class="msg">Loading board games…</div>
+  </div>
+</div>

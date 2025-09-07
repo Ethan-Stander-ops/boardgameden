@@ -14,3 +14,15 @@ Fetching everything to the browser and slicing there is wasteful. Keeping pagina
 
 ## Supplier issue (403)
 The 403 was caused by an HTTP URL. Switching to HTTPS resolved it.
+
+## Docker (single container)
+
+Everything runs in one container.
+
+### Build
+From the repo root (where `Dockerfile` is):
+Open Gitbash or cmd. 
+docker build -t boardgameden .
+docker run --rm -p 8080:8080 boardgameden
+
+
